@@ -14,13 +14,13 @@ const navItems = [
     route: "Home",
     path: "/",
   },
-  {
-    route: "Pages",
-    path: "/pages",
-  },
+  // {
+  //   route: "Pages",
+  //   path: "/pages",
+  // },
   {
     route: "Categories",
-    path: "/categories",
+    path: "/categories/news?category=all-news",
   },
   {
     route: "About",

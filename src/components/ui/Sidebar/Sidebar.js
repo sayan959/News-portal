@@ -1,53 +1,51 @@
 import Image from 'next/image';
 import React from 'react';
+import sidebarLastImg from '@/assets/qZone1.png'
+import { getAllNews } from '@/utilities/getAllNews';
 
-const Sidebar = () => {
+const Sidebar = async () => {
+
+    const {data}= await getAllNews()
     return (
         <div>
-            <div className="card bg-base-100  shadow-xl">
-              <figure>
-                <Image className="w-full"
-                  src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-                  alt="Shoes" width={500} height={500}
-                />
-              </figure>
-              <div className="card-body p-2">
-                <div>
-                  <p className="my-1 bg-red-500 rounded-full px-2 py-1 text-white inline-block">Technology</p>
-                </div>
-                <h2 className="card-title text-xl">Shoes!</h2>
-                <p>If a dog chews shoes whose shoes does he choose?</p>
-                <h3 className="text-xl font-semibold">By John smith 3-8-2024</h3>
-                <p>The city’s booming real estate has also been used by Bangladeshis as an offshore haven to park wealth for a big reason</p>
-              </div>
-            </div>
+         <div className="card bg-base-100  shadow-md">
+                   <figure>
+                     <Image className="w-full"
+                       src={data[1].image_url}
+                       alt="Shoes" width={600} height={800}
+                     />
+                   </figure>
+                   <div className="card-body p-2">
+                     <div>
+                       <p className="my-1 bg-red-500 rounded-full px-2 py-1 text-white inline-block">{data[1]?.category}</p>
+                     </div>
+                     <h2 className="card-title text-xl">{data[1]?.title}</h2>
+                     
+                     <h3 className="text-xl font-semibold">by {data[1]?.author?.name} {data[1]?.author?.published_date}</h3>
+                     <p>{data[1]?.details.length > 90 ? data[1].details.slice(0,90) + "..." : data[1].details }</p>
+                   </div>
+                 </div>
 
             {/* Side bar repeted items  */}
-                <div className="flex items-center mt-4 shadow-md">
+            {
+                    data.slice(3,9).map(news => <div key={data._id} className="flex items-center mt-4 shadow-md">
                     
                         <Image className="w-16 h-10 md:w-24 md:h-20 object-cover rounded-md"
-                          src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-                          alt="Shoes" width={100} height={100}
+                          src={news.image_url}
+                          alt="news image" width={100} height={100}
                         />
                     
                     <div className="card-body p-2">
                         
-                        <h2 className="font-semibold text-sm md:text-xl">Shoes!</h2>
-                        <p className='text-sm md:tex-md'>By John smith 3-8-2024</p>
+                        <h2 className="font-semibold text-sm md:text-xl">{news?.title.length > 45 ? news?.title.slice(0,45) + "..." : news?.title }</h2>
+                        <p className='text-sm md:tex-md'>By {news?.author?.name} {news?.author?.published_date}</p>
                     </div>
-                </div>
-                <div className="flex items-center mt-4 shadow-md">
-                    
-                    <Image className="w-25 h-20 object-cover rounded-md"
-                      src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-                      alt="Shoes" width={100} height={100}
-                    />
-                
-                <div className="card-body p-2">
-                    
-                    <h2 className="font-semibold text-xl">Shoes!</h2>
-                    <p>By John smith 3-8-2024</p>
-                </div>
+                </div>)
+                }
+               
+
+                <div className='mt-5'>
+                    <Image src={sidebarLastImg} className='w-44 md:w-full mx-auto ' alt='news' height={1000} width={1000} />
                 </div>
         </div>
     );
